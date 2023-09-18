@@ -17,9 +17,49 @@ import CustomTitle from '../../../components/customTitle';
 /*Import images*/
 import Clock from '../../../img/icons/clock.svg';
 import Fire from '../../../img/icons/fire_icon.svg';
+import OnWorkingExerciseBox, {
+  OnWorkingExerciseBoxProps,
+} from '../../../components/onWorkingExerciseBox';
 
 const screenWidth = Dimensions.get('window').width;
-
+const sampleData: OnWorkingExerciseBoxProps[] = [
+  {
+    name: '암컬',
+    distance: null,
+    times: '12회',
+    sets: '3세트',
+    calories: null,
+    date: null,
+    percent: '50%',
+  },
+  {
+    name: 'Something',
+    distance: '10km',
+    times: null,
+    sets: null,
+    calories: '150 kcal',
+    date: '2023.6.10',
+    percent: '100%',
+  },
+  {
+    name: '달리기',
+    distance: '10km',
+    times: null,
+    sets: null,
+    calories: '150 kcal',
+    date: '2023.6.10',
+    percent: '100%',
+  },
+  {
+    name: '레그컬',
+    distance: null,
+    times: '10회',
+    sets: '5세트',
+    calories: null,
+    date: null,
+    percent: '0%',
+  },
+];
 function ExerciseScreen() {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -168,7 +208,114 @@ function ExerciseScreen() {
 
           <CustomTitle title="진행중인 운동" />
 
-          <Button title="Go to Login" />
+          {sampleData.map((ele, index) => {
+            return (
+              <View
+                key={index}
+                style={{display: 'flex', gap: 32, flexDirection: 'column'}}>
+                <OnWorkingExerciseBox
+                  id={index}
+                  name={ele.name}
+                  distance={ele.distance}
+                  times={ele.times}
+                  sets={ele.sets}
+                  calories={ele.calories}
+                  date={ele.date}
+                  percent={ele.percent}
+                />
+              </View>
+            );
+          })}
+
+          {/* Exercise Adding part */}
+
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              gap: 8,
+              marginTop: 20,
+              marginBottom: 25,
+            }}>
+            <View style={styles.addEx}>
+              <Image source={require('../../../img/icons/plus_icon.png')} />
+              <Text style={styles.addExBox}>운동 추가</Text>
+            </View>
+            <View style={styles.addEx}>
+              <Image source={require('../../../img/icons/qr-code.png')} />
+              <Text style={styles.addExBox}>QR 기기 스캔</Text>
+            </View>
+          </View>
+
+          <CustomTitle title="최근 운동" />
+
+          <View style={{flex: 1, gap: 10}}>
+            {sampleData.map((ele, index) => {
+              return (
+                <View key={index} style={styles.recentBox}>
+                  <View
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      gap: 10,
+                      borderRightColor: '#D0DEF0',
+                      borderRightWidth: 2,
+                    }}>
+                    <Image
+                      source={require('../../../img/icons/exer_blue_icon.png')}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        paddingBottom: 4,
+                        color: '#4582E9',
+                      }}>
+                      {ele.name}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      paddingLeft: 20,
+                      gap: 13,
+                    }}>
+                    <Text
+                      style={{
+                        flex: 1,
+                        fontSize: 14,
+                        color: '#4d5055',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      {ele.sets ? `${ele.times} ${ele.sets}` : ele.distance}
+                    </Text>
+                    <View
+                      style={{
+                        backgroundColor: '#4582E9',
+                        padding: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 12,
+                        paddingBottom: 7,
+                        flex: 1,
+                      }}>
+                      <Text
+                        style={{fontSize: 14, color: '#fff', paddingBottom: 0}}>
+                        운동 추가
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -194,5 +341,34 @@ const styles = StyleSheet.create({
   lastResentBoxCapText: {
     fontSize: 18,
     color: '#4d5055',
+  },
+  addEx: {
+    backgroundColor: '#D0DEF0',
+    flex: 1,
+    borderRadius: 12,
+    height: 48,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 20,
+  },
+  addExBox: {
+    fontSize: 16,
+    color: '#4582e9',
+    paddingBottom: 4,
+  },
+  recentBox: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: 56,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    borderColor: 'red',
+
+    paddingLeft: 16,
+    paddingRight: 16,
   },
 });
